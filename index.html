@@ -56,4 +56,36 @@ let selected=null,method=null;const root=document.getElementById('packages');
 list.forEach((x,i)=>{let name=typeof x[0]==='number'?x[1]+' Diamonds':x[0],price=x[0]=== 'Weekly Light'?55:x[0]==='Weekly'?165:x[0]==='Monthly'?790:x[0];let b=document.createElement('button');b.className='opt';b.innerHTML=`<input type="radio" name="pack" ${i===0?'':' '}> <span>${name}</span><b>${price} ৳</b>`;b.onclick=()=>{selected={name,price};document.querySelectorAll('.opt').forEach(z=>z.classList.remove('selected'));b.classList.add('selected');b.querySelector('input').checked=true;};root.appendChild(b);});
 document.querySelectorAll('.method').forEach(b=>b.onclick=()=>{method=b.dataset.method;document.querySelectorAll('.method').forEach(z=>z.classList.toggle('active',z===b));});
 document.getElementById('buy').onclick=()=>{let m=document.getElementById('msg');m.style.display='block';m.textContent=(!selected||!document.getElementById('player').value||!method)?'প্যাকেজ, Player ID এবং পেমেন্ট পদ্ধতি নির্বাচন করুন।':'ডেমো অর্ডার: পেমেন্ট ও ডেলিভারি এখনো চালু হয়নি।';};
+</script><script>
+const WHATSAPP_NUMBER = "8801798947900";
+
+document.getElementById('buy').onclick = function () {
+  const pack = document.querySelector('.opt.selected');
+  const player = document.getElementById('player').value.trim();
+  const method = document.querySelector('.method.active');
+  const trx = document.getElementById('number').value.trim();
+
+  if (!pack || !player || !method) {
+    alert('প্যাকেজ, Player ID এবং পেমেন্ট পদ্ধতি নির্বাচন করুন।');
+    return;
+  }
+
+  if (!/^8801[3-9]\d{8}$/.test(WHATSAPP_NUMBER)) {
+    alert('WhatsApp নম্বর বসানো হয়নি।');
+    return;
+  }
+
+  const message =
+    'TOP UP BD Y - নতুন অর্ডার\n' +
+    'প্যাকেজ: ' + pack.innerText + '\n' +
+    'Player ID: ' + player + '\n' +
+    'পেমেন্ট পদ্ধতি: ' + method.innerText + '\n' +
+    'Transaction ID: ' + (trx || 'দেওয়া হয়নি');
+
+  window.open(
+    'https://wa.me/' + WHATSAPP_NUMBER +
+    '?text=' + encodeURIComponent(message),
+    '_blank'
+  );
+};
 </script></body></html>
